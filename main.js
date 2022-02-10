@@ -9,26 +9,30 @@ async function github(username) {
 
 function display(projects) {
     const sorted = projects.sort((projectA, projectB) => { 
-    const a = projectA.stargazers_count;
-    const b = projectB.stargazers_count;
-    
-    if (a<b) {
-        return -1;
-    } else if (a>b) {
-        return 1;
-    } else {
-        return 0; 
-    }
-});
+        const a = projectA.stargazers_count;
+        const b = projectB.stargazers_count;
+        
+        if (a<b) {
+            return -1;
+        } else if (a>b) {
+            return 1;
+        } else {
+            return 0; 
+        }
+    });
     for (let project of sorted) { 
         console.log(` ${project.stargazers_count} ${project.name} ${project.description}`);
     }
 }
 
-async function main() {
+async function main() { 
+    try {
     const resp = await input.text('What is your GitHub username?')
     const repos = await github(resp);
     display(repos);
+        } catch (error) {
+    console.log(error.message);
+    }
 }
 
 main();
